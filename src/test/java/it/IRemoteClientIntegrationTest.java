@@ -2,7 +2,8 @@ package it;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import net.kuronicle.iremocon4j.IRemoconClient;
+import net.kuronicle.iremocon4j.IRemoconClientImpl;
+import net.kuronicle.iremocon4j.IRemoconCommand;
 
 import org.junit.Test;
 
@@ -17,14 +18,13 @@ public class IRemoteClientIntegrationTest {
 
     @Test
     public void testCheckConnection() throws Exception {
-        String commandName = IRemoconClient.COMMAND_CHECK_CONNECTION;
         String expected = "ok";
 
-        IRemoconClient iRemoconClient = new IRemoconClient(IREMOCON_HOST_NAME);
+        IRemoconClientImpl iRemoconClient = new IRemoconClientImpl(IREMOCON_HOST_NAME);
         String actual;
         try {
             iRemoconClient.connect();
-            actual = iRemoconClient.sendCommand(commandName);
+            actual = iRemoconClient.sendCommand(IRemoconCommand.CHECK_CONNECTION);
         } finally {
             iRemoconClient.disconnect();
         }
@@ -34,15 +34,14 @@ public class IRemoteClientIntegrationTest {
 
     @Test
     public void testSendIr() throws Exception {
-        String commandName = IRemoconClient.COMMAND_SEND_IR;
         String parameter = "1";
         String expected = "is;ok";
 
-        IRemoconClient iRemoconClient = new IRemoconClient(IREMOCON_HOST_NAME);
+        IRemoconClientImpl iRemoconClient = new IRemoconClientImpl(IREMOCON_HOST_NAME);
         String actual;
         try {
             iRemoconClient.connect();
-            actual = iRemoconClient.sendCommand(commandName, parameter);
+            actual = iRemoconClient.sendCommand(IRemoconCommand.SEND_IR, parameter);
         } finally {
             iRemoconClient.disconnect();
         }
